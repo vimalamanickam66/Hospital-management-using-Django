@@ -1,59 +1,74 @@
-# Hospital Management System
+# 🏥 Hospital Management System (HMS)
 
-## Overview
-The Hospital Management System is a web application developed using Django Rest Framework for backend API services, Bootstrap for frontend design, and Morris charts for data visualization. It provides comprehensive functionality for managing hospital operations, patient records, and administrative tasks.
+A complete **web-based Hospital Management System** developed using **Django REST Framework** for backend services, **Bootstrap** for frontend UI, and **Morris.js** for data visualization. This system enables efficient management of hospital operations, patient records, appointments, billing, and administrative tasks.
 
-## Features
-- **Patient Management:** Register, update, and view patient details including medical history and treatment records.
-- **Appointment Scheduling:** Manage appointments between doctors and patients, ensuring efficient use of healthcare resources.
-- **Staff Management:** Maintain records of hospital staff including doctors, nurses, and administrative personnel.
-- **Medical Records:** Digitize and store medical records securely, accessible to authorized healthcare providers.
-- **Data Visualization:** Utilize Morris charts to visualize hospital data such as patient demographics, appointment statistics, and medical trends.
+---
 
-## Technologies Used
-- **Backend:** Django Rest Framework, Python
-- **Frontend:** HTML, CSS (Bootstrap)
-- **Data Visualization:** Morris charts
-- **Database:** SQLite (can be extended to other databases supported by Django)
-- **Deployment:** Django's built-in development server (can be deployed on platforms like AWS, Heroku, etc.)
+## ⚙️ Key Features
 
-## Setup Instructions
-1. **Install Python:**
-   Make sure Python is installed on your system. You can download it from [python.org](https://www.python.org/downloads/) and follow the installation instructions.
+- 🧑‍⚕️ Patient registration & medical records
+- 📅 Appointment scheduling
+- 💊 Doctor & department management
+- 💵 Billing and invoice generation
+- 📊 Dashboard with Morris.js charts
+- 🏥 Role-based access control (admin, doctor, receptionist, etc.)
+- 🗂️ Inventory and staff management
+- 🔐 Secure authentication system
 
-2. **Create a Virtual Environment:**
-   It's recommended to use a virtual environment to manage dependencies for your Django project.
-   
-   ```bash
-   # Install virtualenv if you haven't already
-   pip install virtualenv
-   
-   # Create a virtual environment
-   virtualenv venv
-   
-   # Activate the virtual environment (on Windows)
-   venv\Scripts\activate
-   
-   # Activate the virtual environment (on macOS/Linux)
-   source venv/bin/activate
+---
 
- 3. **Install Django and Django Rest Framework:**
+## 🛠️ Tech Stack
+
+| Layer         | Technology                    |
+|---------------|-------------------------------|
+| **Backend**   | Django REST Framework         |
+| **Frontend**  | HTML, CSS,JavaScript,Bootstrap|
+| **Database**  | SQLite (default),             |
+| **Charts**    | Morris.js, jQuery             |
+| Authentication| Django Auth                   |
+
+---
+
+### 1. Clone the repository
+
 ```bash
-   # Install Django and Django Rest Framework using pip.
-    pip install django djangorestframework
-```
-4. **Clone and Setup Your Project:**
-```bash
-   # git clone https://github.com/hadithedetonator/django-rest-hms
-   cd django-rest-hms
-```
-5. **Create a Superuser**
-```bash
+git clone https://github.com/vimalamanickam66/Hospital-management-using-Django.git
+cd Hospital-management-using-Django
+2. Create virtual environment and install dependencies
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+3. Apply migrations and run the server
+bash
+Copy
+Edit
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+Visit: http://127.0.0.1:8000/
+
+📊 Dashboard Example
+Patient Count
+
+Revenue Overview
+
+Daily Appointments
+
+Pie/Bar Charts using Morris.js
+
+Add screenshots here if available!
+
+🔐 Admin Access
+To create a superuser:
+
+bash
+Copy
+Edit
 python manage.py createsuperuser
-```
-6. **Run the Development Server**
-   ```bash
-   python manage.py runserver
-   ```
-![Image 1](1.png)
-![Image 2](2.png)
+Login at: http://127.0.0.1:8000/admin/
+
+
+
