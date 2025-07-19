@@ -1,0 +1,171 @@
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Healthcare Management System</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Page Layout */
+        .about-section {
+            padding: 60px 0;
+            background-color: #f9f9f9;
+        }
+
+        .about-heading {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .about-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+            margin: 0 15%;
+            margin-bottom: 40px;
+        }
+
+        .about-img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .hospital-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .hospital-stat {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 20%;
+        }
+
+        .hospital-stat h3 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .hospital-stat p {
+            font-size: 16px;
+        }
+
+        .about-footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .about-footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .about-footer a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+        .about-footer a:hover {
+            text-decoration: underline;
+        }
+       
+            .carousel-item img {
+              width: 100%;
+              height: 500px;
+              object-fit: cover;
+            }
+            .navbar-brand {
+              font-size: 1.5em;
+            }
+            .shadow-lg {
+              box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+            }
+          
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Hospital Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <!-- About Us Section -->
+    <div class="about-section">
+        <div class="container">
+            <div class="about-heading">
+                <h1>About Our Hospital</h1>
+            </div>
+
+            <div class="about-text">
+                <p>Welcome to our state-of-the-art healthcare facility, where we are committed to providing the best medical services to all our patients. With a dedicated team of highly skilled doctors, nurses, and healthcare professionals, we offer a wide range of services to cater to your medical needs. Our hospital is equipped with the latest technology to ensure accurate diagnoses, effective treatments, and a speedy recovery for all our patients.</p>
+
+                <p>Our hospital’s mission is to provide compassionate care in a comfortable, supportive environment. We believe in patient-centered care and work hard to ensure each person receives the best healthcare possible. We are proud to serve the community and continue to innovate in the medical field to offer world-class care to every patient who walks through our doors.</p>
+
+                <p>Whether you're here for a routine checkup, a medical emergency, or a complex surgery, you can trust us to take care of you every step of the way.</p>
+            </div>
+
+            <div class="hospital-stats">
+                <div class="hospital-stat">
+                    <h3>20+</h3>
+                    <p>Years of Service</p>
+                </div>
+                <div class="hospital-stat">
+                    <h3>100+</h3>
+                    <p>Medical Experts</p>
+                </div>
+                <div class="hospital-stat">
+                    <h3>5000+</h3>
+                    <p>Happy Patients</p>
+                </div>
+                <div class="hospital-stat">
+                    <h3>24/7</h3>
+                    <p>Emergency Care</p>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="about-footer">
+        <p>&copy; 2025 Healthcare Management System. All rights reserved.</p>
+        <p>For more information, visit our <a>Contact Us</a> page.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

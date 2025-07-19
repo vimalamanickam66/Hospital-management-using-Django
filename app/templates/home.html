@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Management System</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .carousel-item img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+    }
+    .navbar-brand {
+      font-size: 1.5em;
+    }
+    .shadow-lg {
+      box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+  </style>
+</head>
+<body>
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Hospital Management</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Carousel -->
+  <div id="home" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#home" data-slide-to="0" class="active"></li>
+      <li data-target="#home" data-slide-to="1"></li>
+      <li data-target="#home" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://png.pngtree.com/background/20230610/original/pngtree-group-of-doctors-standing-around-in-dark-picture-image_3091271.jpg" alt="Healthcare 1">
+        <div class="carousel-caption">
+          <h3 class="display-4">Your Health, Our Priority</h3>
+          <p class="lead">Providing compassionate care to every patient</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://www.statnews.com/wp-content/uploads/2022/03/AdobeStock_246942922.jpeg" alt="Healthcare 2">
+        <div class="carousel-caption">
+          <h3 class="display-4">State-of-the-Art Facilities</h3>
+          <p class="lead">Modern equipment and a clean environment</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://www.ibef.org/assets/images/Medical-Devices-Industry-2.jpg" alt="Healthcare 3">
+        <div class="carousel-caption">
+          <h3 class="display-4">Expert Medical Professionals</h3>
+          <p class="lead">Skilled doctors ready to care for you</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#home" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#home" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <!-- Departments Section -->
+  <div id="departments" class="container my-5">
+    <h2 class="text-center">Administration</h2>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card shadow-lg">
+          <img src="data:image/jpeg;base64,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" class="card-img-top" alt="Surgery">
+          <div class="card-body">
+            <h5 class="card-title">Admin</h5>
+            <p class="card-text">User</p>
+            <a href="{% url 'login' %}" class="btn btn-primary">click</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card shadow-lg">
+          <img src="https://png.pngtree.com/png-clipart/20221028/original/pngtree-medicine-icon-png-image_8741000.png" class="card-img-top" alt="Obstetrics">
+          <div class="card-body">
+            <h5 class="card-title">Medicines</h5>
+            <p class="card-text">Medicine and Bill</p>
+            <a href="{% url 'medicine' %}" class="btn btn-primary">click</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card shadow-lg">
+          <img src="data:image/png;base64,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" class="card-img-top" alt="Cardiology">
+          <div class="card-body">
+            <h5 class="card-title">Departments</h5>
+            <p class="card-text">Departments</p>
+            <a href="{% url 'departments' %}" class="btn btn-primary">click</a>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-3">
+          <div class="card shadow-lg">
+            <img src="data:image/png;base64,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" class="card-img-top" alt="billing">
+            <div class="card-body">
+              <h5 class="card-title">Billing</h5>
+              <p class="card-text">Billing</p>
+              <a href="{% url 'billing_dashboard' %}" class="btn btn-primary">click</a>
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-white text-center py-3">
+    &copy; 2024 Hospital Management System. All Rights Reserved.
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

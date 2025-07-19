@@ -1,0 +1,31 @@
+<!-- templates/invoice_print.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice #{{ invoice.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+        .invoice-box {
+            border: 1px solid #eee;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h2>Invoice #{{ invoice.id }}</h2>
+        <p><strong>Patient Name:</strong> {{ invoice.patient.name }}</p>
+        <p><strong>Appointment ID:</strong> {{ invoice.appointment.id }}</p>
+        <p><strong>Status:</strong> {{ invoice.status }}</p>
+        <p><strong>Amount:</strong> ₹{{ invoice.amount }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ invoice.total_amount }}</p>
+    </div>
+</body>
+</html>

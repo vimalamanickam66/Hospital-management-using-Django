@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departments - Hospital Management System</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .card-img-top {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .department-card {
+      margin-bottom: 30px;
+    }
+    .card-title {
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Hospital Management</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Departments Section -->
+  <div class="container my-5">
+    <h2 class="text-center"> Departments</h2>
+    <div class="row">
+      <!-- Card 1: Cardiology -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="https://media.istockphoto.com/id/531118289/photo/doctor-holding-heart-against-chest.jpg?s=612x612&w=0&k=20&c=hH29drvoa_qkJrGWnYAJr0WpXTDbjyI8rWy6kxHXdAY=" class="card-img-top" alt="Cardiology">
+          <div class="card-body">
+            <h5 class="card-title">Cardiology</h5>
+            <p class="card-text">The Cardiology Department specializes in the diagnosis and treatment of heart-related conditions. </p>
+            <a href="cardiology.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2: Neurology -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="https://bansalgroup-assets.s3.ap-south-1.amazonaws.com/PRD/Bansal_Hospital/2020/09/Neurology-1.jpg" class="card-img-top" alt="Neurology">
+          <div class="card-body">
+            <h5 class="card-title">Neurology</h5>
+            <p class="card-text">Our Neurology Department provides diagnosis and treatment for all neurological disorders.</p>
+            <a href="neurology.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3: Orthopedics -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="https://www.shutterstock.com/image-photo/closeup-professional-doctor-pointed-on-260nw-1992248468.jpg" class="card-img-top" alt="Orthopedics">
+          <div class="card-body">
+            <h5 class="card-title">Orthopedics</h5>
+            <p class="card-text">The Orthopedics Department specializes in the treatment of musculoskeletal conditions, including fractures, arthritis.</p>
+            <a href="orthopedics.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4: Pediatrics -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="https://www.shutterstock.com/image-photo/female-doctor-examining-kid-little-260nw-573743161.jpg" class="card-img-top" alt="Pediatrics">
+          <div class="card-body">
+            <h5 class="card-title">Pediatrics</h5>
+            <p class="card-text">Our Pediatrics Department offers comprehensive healthcare services for children, ensuring a healthy start to life.</p>
+            <a href="pediatrics.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5: Dermatology -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="data:image/jpeg;base64,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" class="card-img-top" alt="Dermatology">
+          <div class="card-body">
+            <h5 class="card-title">Dermatology</h5>
+            <p class="card-text">Our Dermatology Department specializes in the treatment of skin conditions, including acne, eczema, and skin cancer.</p>
+            <a href="dermatology.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card 6: Gynecology -->
+      <div class="col-md-4 department-card">
+        <div class="card shadow-lg">
+          <img src="https://media.istockphoto.com/id/1377499260/photo/shot-of-a-doctor-during-a-consultation-with-a-pregnant-patient-in-a-clinic.jpg?s=612x612&w=0&k=20&c=9JzwYnEKINZBtKZ9z_KIcqmnwZltDQFrA66BZGL2JBQ=" class="card-img-top" alt="Gynecology">
+          <div class="card-body">
+            <h5 class="card-title">Gynecology</h5>
+            <p class="card-text">The Gynecology Department provides expert care in the treatment of women's health issues.</p>
+            <a href="gynecology.html" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-white text-center py-3">
+    &copy; 2025 Hospital Management System. All Rights Reserved.
+  </footer>
+
+  <!-- JavaScript and Bootstrap Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<style>
+    .table {
+        width: 100%;
+        margin-top: 30px;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .table thead {
+        background-color: #007BFF;
+        color: #fff;
+        text-align: left;
+    }
+
+    .table th, .table td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table a {
+        color: #ffffff;
+        background-color: #28a745;
+        padding: 8px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .table a:hover {
+        background-color: #218838;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Patient</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.patient.name }}</td>
+            <td>{{ invoice.status|capfirst }}</td>
+            <td>₹{{ invoice.total_amount }}</td>
+            <td>
+                <a href="{% url 'invoice_print' invoice.id %}">View Invoice</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

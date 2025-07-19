@@ -1,0 +1,82 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Bill</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>Healthcare Management System</h1>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">HMS</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'medicine_details' %}">Medicine</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="medicine-section">
+            <h2>Calculate Your Bill</h2>
+
+            <form action="{% url 'calculate_bill' %}" method="POST">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Medicine Name</th>
+                                <th>Price</th>
+                                <th>Quantity Available</th>
+                                <th>Quantity to Purchase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for medicine in medicines %}
+                                <tr>
+                                    <td>{{ medicine.name }}</td>
+                                    <td>{{ medicine.price }}</td>
+                                    <td>{{ medicine.quantity }}</td>
+                                    <td>
+                                        <input type="number" name="quantities" min="1" max="{{ medicine.quantity }}" required>
+                                        <input type="hidden" name="medicine_ids" value="{{ medicine.id }}">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Calculate Bill</button>
+            </form>
+
+            {% if total_bill %}
+                <div class="alert alert-success mt-4">
+                    <h4>Total Bill: {{ total_bill }}</h4>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 Healthcare Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+{% endblock %}

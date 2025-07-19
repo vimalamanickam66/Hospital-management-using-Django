@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicines List</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'app/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url("{% static 'app/images/medicine-bg.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .header {
+            background-color: rgba(33, 150, 243, 0.8);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 4px solid #2196F3;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .add-button, .edit-button, .delete-button {
+            margin: 20px 0;
+            background-color: #4CAF50;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .edit-button {
+            background-color: #2196F3;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+        }
+
+        .add-button:hover, .edit-button:hover, .delete-button:hover {
+            opacity: 0.8;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+        }
+
+        #searchInput {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Hospital Management</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+		  <ul class="navbar-nav ml-auto">
+			<li class="nav-item active">
+			  <a class="nav-link" href="{% url 'home' %}">Home</a>
+			</li>
+			</ul>
+		</div>
+	  </nav>
+    <!-- Header Section -->
+    <header class="header">
+        <h1>Medicines</h1>
+    </header>
+
+    <!-- Content Section -->
+    <div class="container mt-4">
+        <div class="content">
+
+            <form method="post" action="{% url 'prescription' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="patient_id">Select Patient ID</label>
+                    <select class="form-control" id="patient_id" name="patient_id">
+                        <option value="">Select Patient ID</option>
+                        {% for patient in patients %}
+                            <option value="{{ patient.patient_id }}">{{ patient.patient_id }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Patient ID and Contact Number Input -->
+
+                
+                <div class="form-group">
+                    <label for="contact_number">Patient Contact Number</label>
+                    <input type="text" class="form-control" id="contact_number" name="contact_number" readonly>
+                </div>
+
+                <!-- Patient Selection Dropdown -->
+                <div class="form-group">
+                    <label for="patient_name">Patient Name</label>
+                    <input type="text" class="form-control" id="patient_name" name="patient_name" readonly>
+                </div>
+
+                <!-- Doctor Selection Dropdown -->
+                <div class="form-group">
+                    <label for="doctor_name">Select Doctor</label>
+                    <select class="form-control" name="doctor_name" id="doctor_name">
+                        {% for doctor in doctors %}
+                            <option value="{{ doctor.name }}">{{ doctor.name }} ({{ doctor.specialization }}) </option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="doctor_specialization" value="{{ doctor_specialization }}">
+                </div>
+
+                <!-- Patient and Doctor Information (hidden fields) -->
+                <input type="hidden" name="doctor_specialization" value="{{ doctor.specialization }}">
+                <button type ="button" class="add-button" onclick="window.location.href='{% url 'add_medicine' %}'">Add New Medicine</button>
+
+
+                <!-- Search Bar -->
+                <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for medicines..">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="medicineTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Select</th>
+                                <th>Medicine Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicineTableBody">
+                            {% for medicine in medicines %}
+                                <tr id="medicineRow_{{ medicine.id }}">
+                                    <td><input type="checkbox" name="medicine_ids" value="{{ medicine.id }}"></td>
+                                    <td>{{ medicine.name }}</td>
+                                    <td>{{ medicine.quantity }}</td>
+                                    <td>{{ medicine.price }}</td>
+                                    <td>
+                                        <a href="{% url 'edit_medicine' medicine.id %}" class="edit-button">Edit</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" onclick="deleteMedicine({{ medicine.id }})">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            
+            <button class="add-button" type="submit">Proceed to Prescription</button>
+        </form>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Hospital Management System. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- JavaScript for Delete -->
+    <script>
+        function deleteMedicine(medicineId) {
+            if (confirm("Are you sure you want to delete this medicine?")) {
+                window.location.href = "{% url 'delete_medicine' 0 %}".replace('0', medicineId);
+            }
+        }
+
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("medicineTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the header row
+                td = tr[i].getElementsByTagName("td");
+                let matchFound = false;
+                for (j = 0; j < td.length - 1; j++) { // Exclude the last "Delete" column
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                }
+                if (matchFound) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <script>
+        document.getElementById('patient_id').addEventListener('change', function() {
+            var patientId = this.value;
+            if (patientId) {
+                fetch(`/get_patient_details/?patient_id=${patientId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.error) {
+                            document.getElementById('patient_name').value = data.name;
+                            document.getElementById('contact_number').value = data.contact_number;
+                        } else {
+                            alert(data.error);
+                            document.getElementById('patient_name').value = '';
+                            document.getElementById('contact_number').value = '';
+                        }
+                    });
+            } else {
+                document.getElementById('patient_name').value = '';
+                document.getElementById('contact_number').value = '';
+            }
+        });
+    </script>
+     
+
+</body>
+</html>

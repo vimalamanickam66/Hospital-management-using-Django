@@ -1,0 +1,62 @@
+/* Basic styles for the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Navbar styles */
+.navbar {
+    margin-bottom: 20px;
+    background-color: #343a40;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white !important;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+/* Carousel styles */
+.carousel-inner img {
+    height: 500px;
+    object-fit: cover;
+}
+
+/* Card section styles */
+.about-us-cards {
+    margin: 40px 0;
+    padding: 0 20px;
+}
+
+.card-group .card {
+    margin: 10px;
+}
+
+.card-body {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.5em;
+    color: #343a40;
+}
+
+.card-text {
+    font-size: 1em;
+    color: #6c757d;
+}
+
+/* Footer styles */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+}
