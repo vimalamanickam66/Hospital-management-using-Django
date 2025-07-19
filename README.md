@@ -31,20 +31,14 @@ A complete **web-based Hospital Management System** developed using **Django RES
 
 ### 1. Clone the repository
 
-```bash
+
 git clone https://github.com/vimalamanickam66/Hospital-management-using-Django.git
 cd Hospital-management-using-Django
 2. Create virtual environment and install dependencies
-bash
-Copy
-Edit
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 3. Apply migrations and run the server
-bash
-Copy
-Edit
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
@@ -52,23 +46,15 @@ Visit: http://127.0.0.1:8000/
 
 📊 Dashboard Example
 Patient Count
-
 Revenue Overview
-
 Daily Appointments
-
 Pie/Bar Charts using Morris.js
 
-Add screenshots here if available!
 
 🔐 Admin Access
 To create a superuser:
-
-bash
-Copy
-Edit
 python manage.py createsuperuser
-Login at: http://127.0.0.1:8000/admin/
+
 
 
 
