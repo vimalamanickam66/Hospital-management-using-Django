@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - City Care Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; min-height: 100vh; }
+        .header {
+            background: linear-gradient(135deg, #003580, #0055cc); color: white;
+            padding: 0 30px; display: flex; align-items: center;
+            justify-content: space-between; height: 70px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .navbar-brand { color: white; font-size: 20px; font-weight: 700; text-decoration: none; }
+        .back-btn {
+            text-decoration: none; color: white; background: rgba(255,255,255,0.2);
+            padding: 8px 18px; border-radius: 25px; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.3); transition: 0.3s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .hero {
+            background: linear-gradient(135deg, #003580, #0077cc);
+            color: white; text-align: center; padding: 50px 20px;
+        }
+        .hero h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .hero p  { font-size: 16px; opacity: 0.9; }
+
+        .container { max-width: 700px; margin: 40px auto; padding: 0 20px 60px; }
+
+        .success-msg {
+            background: #d4edda; color: #155724; padding: 16px 20px;
+            border-radius: 10px; margin-bottom: 25px; font-size: 14px;
+            font-weight: 500; border-left: 5px solid #28a745;
+        }
+
+        .form-card { background: white; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.07); overflow: hidden; }
+        .form-card-header { background: linear-gradient(135deg, #004d99, #0077cc); color: white; padding: 18px 25px; font-size: 17px; font-weight: 600; }
+        .form-card-body { padding: 30px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%; padding: 11px 14px; border: 1.5px solid #dde3ec;
+            border-radius: 8px; font-size: 14px; font-family: 'Poppins', sans-serif;
+            color: #333; background: #f9fbfd; transition: 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none; border-color: #0077cc; background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .submit-btn {
+            width: 100%; background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white; padding: 14px; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif; margin-top: 10px;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,77,153,0.4); }
+
+        .info-note { background: #dbeafe; color: #1e40af; padding: 14px 18px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; }
+
+        footer { background: #003580; color: rgba(255,255,255,0.8); text-align: center; padding: 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home' %}" class="navbar-brand">🏥 City Care Hospital</a>
+        <a href="{% url 'home' %}" class="back-btn">← Back to Home</a>
+    </div>
+
+    <div class="hero">
+        <h1>📅 Book an Appointment</h1>
+        <p>Fill in your details and we will confirm your appointment shortly</p>
+    </div>
+
+    <div class="container">
+        {% if messages %}
+        {% for msg in messages %}
+        <div class="success-msg">✅ {{ msg }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="form-card">
+            <div class="form-card-header">📋 Appointment Details</div>
+            <div class="form-card-body">
+                <div class="info-note">ℹ️ After booking, we will call you on your phone to confirm the appointment. If you provide an email, a confirmation will be sent there too.</div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name *</label>
+                            <input type="text" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="text" name="phone" required placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email (optional — for email confirmation)</label>
+                        <input type="email" name="email" placeholder="yourmail@gmail.com">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Department *</label>
+                            <select name="department" required>
+                                <option value="">-- Select Department --</option>
+                                {% for dept in departments %}
+                                <option value="{{ dept.id }}">{{ dept.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Doctor (optional)</label>
+                            <select name="doctor">
+                                <option value="">-- Any Available Doctor --</option>
+                                {% for doc in doctors %}
+                                <option value="{{ doc.id }}">Dr. {{ doc.name }} — {{ doc.specialization }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Appointment Date *</label>
+                        <input type="date" name="appointment_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message / Symptoms (optional)</label>
+                        <textarea name="message" rows="3" placeholder="Briefly describe your symptoms or reason for visit..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">📅 Book Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>© 2026 City Care Hospital | All Rights Reserved</p></footer>
+</body>
+</html>

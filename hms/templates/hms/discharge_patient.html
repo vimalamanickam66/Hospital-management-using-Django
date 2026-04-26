@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discharge Patient</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .box {
+            background: white; width: 100%; max-width: 480px;
+            border-radius: 18px; overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        .box-header { background: linear-gradient(135deg, #e53935, #ef5350); color: white; padding: 25px; text-align: center; }
+        .box-header h2 { font-size: 22px; font-weight: 700; }
+        .box-header p { opacity: 0.85; margin-top: 5px; font-size: 14px; }
+        .box-body { padding: 30px; }
+        .patient-detail { background: #f8fafc; border-radius: 10px; padding: 18px; margin-bottom: 25px; }
+        .patient-detail p { font-size: 14px; color: #555; margin-bottom: 8px; }
+        .patient-detail p:last-child { margin: 0; }
+        .patient-detail strong { color: #1a2740; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 14px 18px; border-radius: 8px; font-size: 14px; color: #856404; margin-bottom: 25px; }
+        .btn-row { display: flex; gap: 12px; }
+        .btn-discharge {
+            flex: 1; background: linear-gradient(135deg, #e53935, #ef5350);
+            color: white; border: none; padding: 12px; border-radius: 8px;
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-discharge:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(229,57,53,0.4); }
+        .btn-cancel {
+            flex: 1; background: #6c757d; color: white; border: none; padding: 12px;
+            border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+            text-decoration: none; text-align: center; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-cancel:hover { background: #5a6268; color: white; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box-header">
+            <h2>🏥 Discharge Patient</h2>
+            <p>This action will update patient status to Discharged</p>
+        </div>
+        <div class="box-body">
+            <div class="patient-detail">
+                <p><strong>Name:</strong> {{ patient.name }}</p>
+                <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
+                <p><strong>Disease:</strong> {{ patient.disease }}</p>
+                <p><strong>Doctor:</strong> {{ patient.assigned_doctor }}</p>
+                <p><strong>Current Status:</strong> {{ patient.status }}</p>
+            </div>
+            <div class="warning">⚠️ Are you sure you want to discharge <strong>{{ patient.name }}</strong>? This will set the discharge date and update their status.</div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="btn-row">
+                    <button type="submit" class="btn-discharge">✅ Yes, Discharge</button>
+                    <a href="{% url 'patients' %}" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

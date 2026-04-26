@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Facilities</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f7fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: linear-gradient(rgba(13, 110, 253, 0.85), rgba(13, 110, 253, 0.85)),
+                        url("{% static 'hms/images/home.jpg' %}") center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .header h1 {
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        .facilities-section {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .facility-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .facility-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .facility-content {
+            padding: 25px;
+        }
+
+        .facility-content h3 {
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            border-radius: 10px;
+        }
+
+        footer {
+            background: #0d6efd;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="header">
+        <h1>Our Hospital Facilities</h1>
+        <p>Explore the advanced facilities available at City Care Hospital</p>
+    </section>
+
+    <section class="facilities-section">
+
+        <div class="facility-card">
+            <img src="{% static 'hms/images/department1.png' %}" alt="Hospital Building">
+            <div class="facility-content">
+                <h3>Modern Hospital Infrastructure</h3>
+                <p>
+                    Our hospital features a clean, spacious, and modern infrastructure designed to ensure
+                    patient comfort, safety, and efficient healthcare service delivery.
+                </p>
+            </div>
+        </div>
+
+        <div class="facility-card">
+            <img src="{% static 'hms/images/facilities2.png' %}" alt="Doctor Consultation">
+            <div class="facility-content">
+                <h3>Specialist Doctor Consultation</h3>
+                <p>
+                    We provide consultation services from experienced doctors across multiple specialties,
+                    ensuring accurate diagnosis and quality treatment for patients.
+                </p>
+            </div>
+        </div>
+
+        <div class="facility-card">
+            <img src="{% static 'hms/images/facilities3.jpg' %}" alt="Hospital Room">
+            <div class="facility-content">
+                <h3>Comfortable Patient Rooms</h3>
+                <p>
+                    Our hospital offers well-maintained general wards, private rooms, and ICU facilities
+                    with proper hygiene and patient monitoring systems.
+                </p>
+            </div>
+        </div>
+
+        <div class="facility-card">
+            <img src="{% static 'hms/images/department9.png' %}"  alt="Medical Team">
+            <div class="facility-content">
+                <h3>Expert Medical Team</h3>
+                <p>
+                    Our skilled medical team includes doctors, nurses, technicians, and support staff who
+                    work together to provide compassionate and professional care.
+                </p>
+            </div>
+        </div>
+
+        <div class="facility-card">
+            <img src="{% static 'hms/images/hospital2.jpg' %}" alt="Hospital Image">
+            <div class="facility-content">
+                <h3>24/7 Emergency Care</h3>
+                <p>
+                    Emergency services are available round the clock with quick response teams, ambulance
+                    support, and immediate treatment facilities for critical situations.
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'home' %}" class="btn btn-primary btn-back">Back to Home</a>
+    </section>
+
+    <footer>
+        <p>© 2026 City Care Hospital | Advanced Care, Trusted Service</p>
+    </footer>
+
+</body>
+</html>

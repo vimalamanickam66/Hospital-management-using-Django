@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #f4f7fa; }
+
+        .hero {
+            background: linear-gradient(rgba(13,110,253,0.75), rgba(13,110,253,0.75)),
+                        url("{% static 'hms/images/home.jpg' %}") center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        .hero h1 { font-size: 55px; font-weight: 700; }
+        .hero p  { font-size: 18px; margin-top: 20px; margin-bottom: 35px; }
+        .btn-login { font-size: 18px; padding: 12px 30px; border-radius: 10px; margin: 5px; }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            display: flex;
+            gap: 30px;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+        .card-box {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .card-box h2 { margin-bottom: 15px; }
+        .intro-title   { color: #0d6efd; }
+        .problem-title { color: #198754; }
+
+        /* Departments */
+        .dept-section {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .dept-section h2 {
+            text-align: center;
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .dept-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .dept-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .dept-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+            color: inherit;
+            text-decoration: none;
+        }
+        .dept-card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+        .dept-card-body { padding: 20px; }
+        .dept-card-body h4 {
+            color: #0d6efd;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .dept-card-body p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .dept-card-footer {
+            padding: 12px 20px;
+            background: #f0f6ff;
+            border-top: 1px solid #e0eeff;
+            font-size: 13px;
+            color: #0d6efd;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .no-dept {
+            text-align: center;
+            color: #999;
+            padding: 50px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        /* Gallery */
+        .hospital-gallery {
+            max-width: 1200px;
+            margin: 20px auto 60px;
+            padding: 0 20px;
+        }
+        .hospital-gallery h2 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gallery-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .gallery-card:hover { transform: translateY(-5px); }
+        .gallery-card img { width: 100%; height: 220px; object-fit: cover; }
+        .gallery-card h5 { padding: 15px; margin: 0; color: #0d6efd; font-family: 'Poppins', sans-serif; }
+
+        /* Contact */
+        .contact-section {
+            background: white;
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            padding: 40px 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .contact-section h2 { text-align: center; color: #0d6efd; margin-bottom: 25px; }
+        .contact-info { text-align: center; font-size: 18px; line-height: 2; }
+
+        footer {
+            background: #0d6efd;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Hospital Management System</h1>
+        <p>A centralized system for patient registration, doctor consultations, room allotment, and hospital operations.</p>
+        <a href="{% url 'login' %}" class="btn btn-warning btn-login">Admin Login</a>
+        <a href="{% url 'facilities' %}" class="btn btn-warning btn-login">Hospital Facilities</a>
+        <a href="{% url 'book_appointment' %}" class="btn btn-warning btn-login">Book Appointment</a>
+    </section>
+
+    <!-- About & Services -->
+    <section class="content-section">
+        <div class="card-box">
+            <h2 class="intro-title">Hospital Services</h2>
+            <p>Our hospital provides outpatient consultation, inpatient treatment, emergency care, laboratory testing, pharmacy services, room allotment, surgery support, and billing management. We focus on patient safety, comfort, and efficient healthcare delivery.</p>
+        </div>
+        <div class="card-box">
+            <h2 class="problem-title">About Our Hospital</h2>
+            <p>Welcome to City Care Hospital, a trusted healthcare center dedicated to providing quality medical services with compassion and care. Our hospital offers advanced treatment facilities, experienced doctors, modern equipment, and 24/7 emergency support.</p>
+        </div>
+    </section>
+
+    <!-- Departments -->
+    <section class="dept-section">
+        <h2>Our Departments</h2>
+        <p class="dept-subtitle">Click on a department to learn more and meet our specialist doctors</p>
+
+        {% if departments %}
+        <div class="dept-grid">
+            {% for dept in departments %}
+            {% with dept_name=dept.name|lower %}
+            <a href="{% url 'department_detail' dept.id %}" class="dept-card">
+
+                {% if "cardio" in dept_name or "heart" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department2.png' %}" alt="{{ dept.name }}">
+                {% elif "ortho" in dept_name or "bone" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department3.png' %}" alt="{{ dept.name }}">
+                {% elif "neuro" in dept_name or "brain" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department3.png' %}" alt="{{ dept.name }}">
+                {% elif "pedia" in dept_name or "child" in dept_name or "kids" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department4.png' %}" alt="{{ dept.name }}">
+                {% elif "gynae" in dept_name or "gynec" in dept_name or "women" in dept_name or "obstet" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department5.png' %}" alt="{{ dept.name }}">
+                {% elif "dental" in dept_name or "teeth" in dept_name or "oral" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "eye" in dept_name or "ophthal" in dept_name or "vision" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1516914943479-89db7d9ae7f2?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "skin" in dept_name or "derma" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department8.png' %}" alt="{{ dept.name }}">
+                {% elif "emergency" in dept_name or "icu" in dept_name or "critical" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department1.png' %}"alt="{{ dept.name }}">
+                {% elif "lab" in dept_name or "pathol" in dept_name or "blood" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1579165466741-7f35e4755660?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "radio" in dept_name or "xray" in dept_name or "scan" in dept_name or "imaging" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1516069677018-378515003435?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "surgery" in dept_name or "surgical" in dept_name or "operat" in dept_name %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department7.png' %}"alt="{{ dept.name }}">
+                {% elif "physio" in dept_name or "rehab" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "psych" in dept_name or "mental" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% elif "general" in dept_name or "medicine" in dept_name %}
+                    <img class="dept-card-img" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" alt="{{ dept.name }}">
+                {% else %}
+                    <img class="dept-card-img" src="{% static 'hms/images/department91.jpg' %}"alt="{{ dept.name }}">
+                {% endif %}
+
+                <div class="dept-card-body">
+                    <h4>{{ dept.name }}</h4>
+                    <p>{{ dept.description }}</p>
+                </div>
+                <div class="dept-card-footer">
+                    <span>View Department</span>
+                    <span>→</span>
+                </div>
+            </a>
+            {% endwith %}
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="no-dept">
+            <p style="font-size:45px; margin-bottom:10px;">🏥</p>
+            <p style="font-size:15px;">No departments added yet. Please add departments from the admin dashboard.</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Gallery -->
+    <section class="hospital-gallery">
+        <h2>Hospital Facilities</h2>
+        <div class="gallery-grid">
+            <a href="{% url 'facilities' %}" style="text-decoration:none;">
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Hospital Building">
+                    <h5>Modern Hospital Building</h5>
+                </div>
+            </a>
+            <a href="{% url 'facilities' %}" style="text-decoration:none;">
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" alt="Doctor Consultation">
+                    <h5>Doctor Consultation</h5>
+                </div>
+            </a>
+            <a href="{% url 'facilities' %}" style="text-decoration:none;">
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=800&q=80" alt="Hospital Room">
+                    <h5>Patient Rooms</h5>
+                </div>
+            </a>
+            <a href="{% url 'facilities' %}" style="text-decoration:none;">
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80" alt="Medical Team">
+                    <h5>Expert Medical Team</h5>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section">
+        <h2>Contact Information</h2>
+        <div class="contact-info">
+            <p><strong>Hospital Name:</strong> City Care Hospital</p>
+            <p><strong>Address:</strong> 123 Health Street, Chennai, Tamil Nadu</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Email:</strong> citycarehospital@gmail.com</p>
+            <p><strong>Emergency:</strong> 24/7 Available</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 City Care Hospital | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>

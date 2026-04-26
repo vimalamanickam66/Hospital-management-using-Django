@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill - {{ patient.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; padding: 30px; }
+        .bill-container {
+            max-width: 750px; margin: 0 auto; background: white;
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .bill-top {
+            background: linear-gradient(135deg, #003580, #0077cc);
+            color: white; text-align: center; padding: 30px 20px;
+        }
+        .bill-top h1 { font-size: 28px; font-weight: 700; }
+        .bill-top p { opacity: 0.85; margin-top: 5px; }
+        .bill-top .bill-num { margin-top: 12px; font-size: 13px; background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 16px; border-radius: 20px; }
+        .bill-body { padding: 30px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; background: #f8fafc; padding: 18px; border-radius: 10px; }
+        .info-grid span { font-size: 13px; color: #555; }
+        .info-grid strong { color: #1a2740; }
+        .section-title { font-size: 15px; font-weight: 700; color: #1a2740; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e0eeff; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+        table th { background: #f0f6ff; color: #0055cc; padding: 10px 12px; text-align: left; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #f0f4f9; }
+        .charge-row { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid #f0f4f9; font-size: 14px; }
+        .charge-row:last-child { border: none; }
+        .total-box { background: linear-gradient(135deg, #003580, #0055cc); color: white; border-radius: 10px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .total-box span { font-size: 16px; font-weight: 600; }
+        .total-box .amount { font-size: 24px; font-weight: 700; }
+        .paid-badge { display: inline-block; padding: 5px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 15px; }
+        .paid-yes { background: #d4edda; color: #155724; }
+        .paid-no  { background: #f8d7da; color: #721c24; }
+        .btn-row { display: flex; gap: 15px; margin-top: 25px; justify-content: center; }
+        .btn { padding: 11px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; font-family: 'Poppins', sans-serif; text-decoration: none; display: inline-block; }
+        .btn-print { background: linear-gradient(135deg, #004d99, #0077cc); color: white; }
+        .btn-back  { background: #6c757d; color: white; }
+        .btn:hover { transform: translateY(-2px); }
+        .footer { text-align: center; padding: 18px; background: #f8fafc; color: #888; font-size: 13px; }
+        @media print {
+            body { background: white; padding: 0; }
+            .bill-container { box-shadow: none; border-radius: 0; }
+            .btn-row { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bill-container">
+        <div class="bill-top">
+            <h1>🏥 City Care Hospital</h1>
+            <p>123 Health Street, Chennai, Tamil Nadu</p>
+            <div class="bill-num">Bill #{{ bill.id }} | {{ bill.created_at|date:"d M Y" }}</div>
+        </div>
+        <div class="bill-body">
+            <div class="info-grid">
+                <span><strong>Patient:</strong> {{ patient.name }}</span>
+                <span><strong>Patient ID:</strong> {{ patient.patient_id }}</span>
+                <span><strong>Age/Gender:</strong> {{ patient.age }} / {{ patient.gender }}</span>
+                <span><strong>Phone:</strong> {{ patient.phone }}</span>
+                <span><strong>Disease:</strong> {{ patient.disease }}</span>
+                <span><strong>Doctor:</strong> {{ patient.assigned_doctor }}</span>
+            </div>
+
+            {% if given_medicines %}
+            <div class="section-title">💊 Medicines Given</div>
+            <table>
+                <thead>
+                    <tr><th>Medicine</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+                </thead>
+                <tbody>
+                    {% for pm in given_medicines %}
+                    <tr>
+                        <td>{{ pm.medicine.name }}</td>
+                        <td>{{ pm.quantity }}</td>
+                        <td>₹{{ pm.medicine.price }}</td>
+                        <td>₹{{ pm.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+
+            <div class="section-title">💰 Bill Summary</div>
+            <div class="charge-row"><span>🛏️ Room Charge</span><span>₹{{ bill.room_charge }}</span></div>
+            <div class="charge-row"><span>👨‍⚕️ Doctor Fee</span><span>₹{{ bill.doctor_fee }}</span></div>
+            <div class="charge-row"><span>💊 Medicine Charge</span><span>₹{{ bill.medicine_charge }}</span></div>
+            <div class="charge-row"><span>📋 Other Charges</span><span>₹{{ bill.other_charges }}</span></div>
+
+            <div class="total-box">
+                <span>Total Amount</span>
+                <span class="amount">₹{{ bill.total_amount }}</span>
+            </div>
+
+            <div style="text-align:center;">
+                {% if bill.is_paid %}
+                    <span class="paid-badge paid-yes">✅ PAID</span>
+                {% else %}
+                    <span class="paid-badge paid-no">❌ UNPAID</span>
+                {% endif %}
+            </div>
+
+            <div class="btn-row">
+                <button onclick="window.print()" class="btn btn-print">🖨️ Print Bill</button>
+                <a href="{% url 'patients' %}" class="btn btn-back">← Back to Patients</a>
+            </div>
+        </div>
+        <div class="footer">Thank you for choosing City Care Hospital | Get well soon! 🌟</div>
+    </div>
+</body>
+</html>

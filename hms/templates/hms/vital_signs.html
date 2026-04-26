@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vital Signs - {{ patient.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; }
+        .header {
+            background: linear-gradient(135deg, #004d99, #0077cc); color: white;
+            padding: 0 30px; display: flex; align-items: center;
+            justify-content: space-between; height: 70px;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,77,153,0.3);
+        }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .back-btn {
+            text-decoration: none; color: white; background: rgba(255,255,255,0.2);
+            padding: 8px 18px; border-radius: 25px; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.3); transition: 0.3s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.35); }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px 40px; }
+        .patient-info {
+            background: white; border-radius: 14px; padding: 20px 25px;
+            margin-bottom: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex; gap: 30px; flex-wrap: wrap;
+            border-left: 5px solid #0077cc;
+        }
+        .patient-info span { font-size: 14px; color: #555; }
+        .patient-info strong { color: #1a2740; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.07); margin-bottom: 25px; overflow: hidden; }
+        .card-header { background: linear-gradient(135deg, #004d99, #0077cc); color: white; padding: 16px 25px; font-size: 16px; font-weight: 600; }
+        .card-body { padding: 25px; }
+        .form-wrap p { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .form-wrap p label { font-size: 13px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-wrap p input, .form-wrap p select, .form-wrap p textarea {
+            padding: 10px 14px; border: 1.5px solid #dde3ec; border-radius: 8px;
+            font-size: 14px; font-family: 'Poppins', sans-serif;
+            background: #f9fbfd; transition: 0.2s; width: 100%;
+        }
+        .form-wrap p input:focus, .form-wrap p select:focus {
+            outline: none; border-color: #0077cc; background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #004d99, #0077cc); color: white;
+            padding: 11px 30px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .save-btn:hover { transform: translateY(-2px); }
+
+        /* Latest vitals cards */
+        .vitals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .vital-card { background: white; border-radius: 14px; padding: 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .vital-card .vital-icon { font-size: 30px; margin-bottom: 8px; }
+        .vital-card .vital-value { font-size: 24px; font-weight: 700; color: #0055cc; }
+        .vital-card .vital-label { font-size: 12px; color: #888; margin-top: 4px; font-weight: 500; }
+        .vital-card .vital-unit { font-size: 13px; color: #aaa; }
+
+        /* chart */
+        .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th { background: linear-gradient(135deg, #004d99, #0077cc); color: white; padding: 12px 15px; text-align: center; font-weight: 600; }
+        tbody td { padding: 11px 15px; border-bottom: 1px solid #f0f4f9; text-align: center; color: #444; }
+        tbody tr:hover { background: #f0f6ff; }
+        .empty-msg { text-align: center; color: #aaa; font-style: italic; padding: 25px; }
+
+        .alert-success { background: #d4edda; color: #155724; padding: 12px 18px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Vital Signs — {{ patient.name }}</h1>
+        <a href="{% url 'patients' %}" class="back-btn">← Back to Patients</a>
+    </div>
+
+    <div class="container">
+        {% if messages %}
+            {% for msg in messages %}
+            <div class="alert-success">✅ {{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="patient-info">
+            <span><strong>Patient:</strong> {{ patient.name }}</span>
+            <span><strong>ID:</strong> {{ patient.patient_id }}</span>
+            <span><strong>Age:</strong> {{ patient.age }}</span>
+            <span><strong>Disease:</strong> {{ patient.disease }}</span>
+            <span><strong>Doctor:</strong> {{ patient.assigned_doctor }}</span>
+        </div>
+
+        {% if vitals_history %}
+        <!-- Latest Vitals Summary -->
+        {% with latest=vitals_history.0 %}
+        <div class="vitals-grid">
+            <div class="vital-card">
+                <div class="vital-icon">❤️</div>
+                <div class="vital-value">{{ latest.blood_pressure|default:"—" }}</div>
+                <div class="vital-label">Blood Pressure</div>
+                <div class="vital-unit">mmHg</div>
+            </div>
+            <div class="vital-card">
+                <div class="vital-icon">🌡️</div>
+                <div class="vital-value">{{ latest.temperature|default:"—" }}</div>
+                <div class="vital-label">Temperature</div>
+                <div class="vital-unit">°F</div>
+            </div>
+            <div class="vital-card">
+                <div class="vital-icon">💓</div>
+                <div class="vital-value">{{ latest.pulse|default:"—" }}</div>
+                <div class="vital-label">Pulse Rate</div>
+                <div class="vital-unit">bpm</div>
+            </div>
+            <div class="vital-card">
+                <div class="vital-icon">⚖️</div>
+                <div class="vital-value">{{ latest.weight|default:"—" }}</div>
+                <div class="vital-label">Weight</div>
+                <div class="vital-unit">kg</div>
+            </div>
+            <div class="vital-card">
+                <div class="vital-icon">🫁</div>
+                <div class="vital-value">{{ latest.oxygen_level|default:"—" }}</div>
+                <div class="vital-label">Oxygen Level</div>
+                <div class="vital-unit">SpO2 %</div>
+            </div>
+        </div>
+        {% endwith %}
+
+        <!-- Charts -->
+        <div class="chart-row">
+            <div class="card">
+                <div class="card-header">💓 Pulse Rate Trend</div>
+                <div class="card-body">
+                    <canvas id="pulseChart" height="120"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">🌡️ Temperature Trend</div>
+                <div class="card-body">
+                    <canvas id="tempChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Add Form -->
+        <div class="card">
+            <div class="card-header">➕ Record Vital Signs</div>
+            <div class="card-body">
+                <div class="form-wrap">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save-btn">💾 Save Vitals</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="card">
+            <div class="card-header">Vitals History</div>
+            <div class="card-body" style="padding:0;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Blood Pressure</th>
+                            <th>Temp (°F)</th>
+                            <th>Pulse (bpm)</th>
+                            <th>Weight (kg)</th>
+                            <th>O2 Level (%)</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vital in vitals_history %}
+                        <tr>
+                            <td>{{ vital.recorded_at|date:"d M Y, h:i A" }}</td>
+                            <td>{{ vital.blood_pressure|default:"—" }}</td>
+                            <td>{{ vital.temperature|default:"—" }}</td>
+                            <td>{{ vital.pulse|default:"—" }}</td>
+                            <td>{{ vital.weight|default:"—" }}</td>
+                            <td>{{ vital.oxygen_level|default:"—" }}</td>
+                            <td>{{ vital.notes|default:"—" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="7" class="empty-msg">No vitals recorded yet</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Build chart data from vitals history
+        const labels = [
+            {% for vital in vitals_history reversed %}
+                "{{ vital.recorded_at|date:'d M' }}",
+            {% endfor %}
+        ];
+        const pulseData = [
+            {% for vital in vitals_history reversed %}
+                {{ vital.pulse|default:0 }},
+            {% endfor %}
+        ];
+        const tempData = [
+            {% for vital in vitals_history reversed %}
+                {{ vital.temperature|default:0 }},
+            {% endfor %}
+        ];
+
+        new Chart(document.getElementById('pulseChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Pulse (bpm)',
+                    data: pulseData,
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239,68,68,0.08)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#ef4444',
+                    pointRadius: 4,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, grid: { color: '#f0f4f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('tempChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Temperature (°F)',
+                    data: tempData,
+                    borderColor: '#f97316',
+                    backgroundColor: 'rgba(249,115,22,0.08)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#f97316',
+                    pointRadius: 4,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, grid: { color: '#f0f4f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

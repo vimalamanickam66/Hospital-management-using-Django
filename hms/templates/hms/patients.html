@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients - Hospital Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(135deg, #004d99 0%, #0077cc 100%);
+            color: white;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            box-shadow: 0 4px 15px rgba(0,77,153,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header-icon {
+            font-size: 28px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.35);
+            color: white;
+        }
+
+        /* ── Layout ── */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px 40px;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 16px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* ── Form ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #dde3ec;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            transition: 0.2s;
+            background: #f9fbfd;
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0077cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+
+        /* Django renders form.as_p — override p tags */
+        .form-wrap p {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .form-wrap p label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-wrap p input,
+        .form-wrap p select,
+        .form-wrap p textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #dde3ec;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            transition: 0.2s;
+            background: #f9fbfd;
+            width: 100%;
+        }
+
+        .form-wrap p input:focus,
+        .form-wrap p select:focus,
+        .form-wrap p textarea:focus {
+            outline: none;
+            border-color: #0077cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+
+        .save-btn {
+            margin-top: 10px;
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 11px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,77,153,0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,77,153,0.4);
+        }
+
+        /* ── Search ── */
+        .search-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1.5px solid #dde3ec;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background: #f9fbfd;
+            transition: 0.2s;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #0077cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,77,153,0.3);
+        }
+
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .no-result {
+            color: #e53935;
+            font-weight: 500;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        /* ── Table ── */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+        }
+
+        thead th {
+            padding: 13px 15px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eef2f7;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f0f6ff;
+        }
+
+        tbody td {
+            padding: 12px 15px;
+            text-align: center;
+            color: #444;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-waiting  { background: #fff3cd; color: #856404; }
+        .status-checked  { background: #d1ecf1; color: #0c5460; }
+        .status-admitted { background: #d4edda; color: #155724; }
+        .status-discharged { background: #f8d7da; color: #721c24; }
+
+        .slip-link {
+            color: #0077cc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 5px 12px;
+            border: 1.5px solid #0077cc;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .slip-link:hover {
+            background: #0077cc;
+            color: white;
+        }
+
+        .empty-row td {
+            color: #999;
+            font-style: italic;
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 15px;
+                height: auto;
+                padding: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .header h1 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <span class="header-icon">🏥</span>
+            <h1>Patient Management</h1>
+        </div>
+        <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        <!-- Add Patient Form -->
+        <div class="card">
+            <div class="card-header">
+                ➕ Add Patient / Book Appointment
+            </div>
+            <div class="card-body">
+                <div class="form-wrap">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save-btn">💾 Save & Generate Slip</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="card" id="search-section">
+            <div class="card-header">
+                🔍 Search Patient by ID
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{% url 'patients' %}#search-section" class="search-form">
+                    <input type="number" name="patient_id" placeholder="Enter Patient ID (e.g. 2)" value="{{ search_query }}">
+                    <button type="submit" class="search-btn">Search</button>
+                    <a href="{% url 'patients' %}" class="clear-btn">Clear</a>
+                </form>
+                {% if search_query and not patient_list %}
+                    <p class="no-result">⚠️ No patient found with ID {{ search_query }}.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Patient Table -->
+        <div class="card">
+            <div class="card-header">
+                📋 All Patients
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Disease</th>
+                                <th>Doctor</th>
+                                <th>Appointment Date</th>
+                                <th>Status</th>
+                                <th>Slip</th>
+                                <th>Vitals</th>
+                                <th>prescription</th>
+                                <th>medicine</th>
+                                <th>bill</th>
+                                <th>Changes to Admitted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for patient in patient_list %}
+                
+                                <td><strong>{{ patient.patient_id }}</strong></td>
+                                <td>{{ patient.name }}</td>
+                                <td>{{ patient.age }}</td>
+                                <td>{{ patient.disease }}</td>
+                                <td>{{ patient.assigned_doctor }}</td>
+                                <td>{{ patient.appointment_date|date:"d-m-Y" }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ patient.status|lower }}">
+                                        {{ patient.status }}
+                                    </span>
+                                </td>
+                                <td>
+    <a href="{% url 'patient_slip' patient.id %}" class="slip-link">Slip</a></td>
+    <td><a href="{% url 'vital_signs' patient.id %}" style="background:#fce7f3;color:#9d174d;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;margin:2px;">Vitals</a></td>
+    <td><a href="{% url 'add_prescription' patient.id %}" style="background:#dbeafe;color:#1e40af;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;margin:2px;">Prescript</a></td>
+    <td><a href="{% url 'give_medicine' patient.id %}" style="background:#dcfce7;color:#166534;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;margin:2px;">💊</a>
+    </td>
+    <td><a href="{% url 'generate_bill' patient.id %}" style="background:#fef9ec;color:#92400e;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;margin:2px;">Bill</a></td>
+    <td>
+    {% if patient.status == 'Admitted' %}
+    <a href="{% url 'discharge_patient' patient.id %}" style="background:#f8d7da;color:#721c24;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;margin:2px;">Discharge</a>
+    {% endif %}
+</td>
+                            </tr>
+                            {% empty %}
+                            <tr class="empty-row">
+                                <td colspan="8">No patients found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

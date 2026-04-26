@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Patients - Hospital Management</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: #f4f8fb;
+            padding: 20px;
+            margin: 0;
+        }
+        h2 {
+            color: #004d99;
+        }
+        a {
+            text-decoration: none;
+            color: #004d99;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background: #004d99;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pending Patient Details</h2>
+    <p><a href="{% url 'dashboard' %}">← Back to Dashboard</a></p>
+
+    <div class="box">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Disease</th>
+                <th>Assigned Doctor</th>
+                <th>Status</th>
+            </tr>
+            {% for patient in pending_patients %}
+            <tr>
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.age }}</td>
+                <td>{{ patient.disease }}</td>
+                <td>{{ patient.assigned_doctor }}</td>
+                <td>{{ patient.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No pending patients</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

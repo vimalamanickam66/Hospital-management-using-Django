@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ department.name }} - City Care Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #003580, #0055cc);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.35);
+            color: white;
+        }
+
+        /* Hero Banner */
+        .dept-hero {
+            background: linear-gradient(135deg, #003580 0%, #0077cc 100%);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dept-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+        }
+
+        .dept-hero .hero-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .dept-hero h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .dept-hero p {
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 45px auto;
+            padding: 0 20px 60px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2740;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #0055cc;
+            display: inline-block;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .stat-box .stat-num {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0055cc;
+        }
+
+        .stat-box .stat-label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        /* Doctors Grid */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+            margin-bottom: 40px;
+        }
+
+        .doctor-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px 22px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003580, #0077cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 16px;
+            box-shadow: 0 4px 15px rgba(0,85,204,0.3);
+        }
+
+        .doctor-card h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a2740;
+            margin-bottom: 6px;
+        }
+
+        .doctor-card .spec {
+            font-size: 13px;
+            color: #0077cc;
+            font-weight: 600;
+            margin-bottom: 14px;
+            background: #dbeafe;
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+        }
+
+        .doctor-info-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .info-chip {
+            background: #f0f4f9;
+            color: #555;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .fee-chip {
+            background: #fef9ec;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .avail-badge {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .avail-yes { background: #d4edda; color: #155724; }
+        .avail-no  { background: #f8d7da; color: #721c24; }
+
+        /* No Doctors */
+        .no-doctors {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            color: #999;
+        }
+
+        /* Description Card */
+        .desc-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            margin-bottom: 40px;
+            border-left: 5px solid #0055cc;
+        }
+
+        .desc-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2740;
+            margin-bottom: 12px;
+        }
+
+        .desc-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* Back Button */
+        .back-home {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .back-home a {
+            display: inline-block;
+            background: linear-gradient(135deg, #003580, #0077cc);
+            color: white;
+            padding: 13px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,85,204,0.3);
+        }
+
+        .back-home a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,85,204,0.4);
+            color: white;
+        }
+
+        footer {
+            background: #003580;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .dept-hero h1 { font-size: 28px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="navbar-brand">🏥 City Care Hospital</a>
+        <a href="{% url 'home' %}" class="back-btn">← Back to Home</a>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="dept-hero">
+        <span class="hero-badge">🏥 Department</span>
+        <span class="hero-icon">
+            {% with dept_name=department.name|lower %}
+                {% if "cardio" in dept_name or "heart" in dept_name %}
+                {% elif "ortho" in dept_name or "bone" in dept_name %}
+                {% elif "neuro" in dept_name or "brain" in dept_name %}
+                {% elif "pedia" in dept_name or "child" in dept_name %}
+                {% elif "gynae" in dept_name or "gynec" in dept_name or "women" in dept_name %}
+                {% elif "dental" in dept_name or "teeth" in dept_name %}
+                {% elif "eye" in dept_name or "ophthal" in dept_name %}
+                {% elif "skin" in dept_name or "derma" in dept_name %}
+                {% elif "emergency" in dept_name or "icu" in dept_name %}
+                {% elif "lab" in dept_name or "pathol" in dept_name %}
+                {% elif "radio" in dept_name or "xray" in dept_name or "scan" in dept_name %}
+                {% elif "surgery" in dept_name or "surgical" in dept_name %}
+                {% elif "physio" in dept_name or "rehab" in dept_name %}
+                {% elif "psych" in dept_name or "mental" in dept_name %}
+                {% elif "general" in dept_name or "medicine" in dept_name %}
+                {% else %}                {% endif %}
+            {% endwith %}
+        </span>
+        <h1>{{ department.name }}</h1>
+        <p>{{ department.description }}</p>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+
+        <!-- Stats — available_count comes from views.py -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-num">{{ doctors|length }}</div>
+                <div class="stat-label">Total Doctors</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">{{ available_count }}</div>
+                <div class="stat-label">Available Now</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num">24/7</div>
+                <div class="stat-label">Emergency Support</div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="desc-card">
+            <h3>📋 About {{ department.name }}</h3>
+            <p>{{ department.description }}</p>
+        </div>
+
+        <!-- Doctors -->
+        <div class="section-title">👨‍⚕️ Our Specialist Doctors</div>
+
+        {% if doctors %}
+        <div class="doctors-grid">
+            {% for doctor in doctors %}
+            <div class="doctor-card">
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <h4>Dr. {{ doctor.name }}</h4>
+                <div class="spec">{{ doctor.specialization }}</div>
+
+                <div class="doctor-info-row">
+                    <span class="info-chip">📞 {{ doctor.phone }}</span>
+                    <span class="info-chip fee-chip">₹{{ doctor.fee }} Fee</span>
+                </div>
+
+                {% if doctor.available %}
+                    <span class="avail-badge avail-yes">✅ Available Now</span>
+                {% else %}
+                    <span class="avail-badge avail-no">❌ Not Available</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-doctors">
+            <p style="font-size:50px; margin-bottom:10px;">👨‍⚕️</p>
+            <p style="font-size:16px; color:#666;">No doctors assigned to this department yet.</p>
+        </div>
+        {% endif %}
+
+        <div class="back-home">
+            <a href="{% url 'home' %}">← Back to Home</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 City Care Hospital | Advanced Care, Trusted Service</p>
+    </footer>
+
+</body>
+</html>

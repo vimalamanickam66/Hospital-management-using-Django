@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Bill - {{ patient.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; }
+        .header {
+            background: linear-gradient(135deg, #004d99, #0077cc); color: white;
+            padding: 0 30px; display: flex; align-items: center;
+            justify-content: space-between; height: 70px;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,77,153,0.3);
+        }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .back-btn {
+            text-decoration: none; color: white; background: rgba(255,255,255,0.2);
+            padding: 8px 18px; border-radius: 25px; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.3); transition: 0.3s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.35); }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px 40px; }
+        .bill-card {
+            background: white; border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07); overflow: hidden;
+        }
+        .bill-header {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white; padding: 25px 30px; text-align: center;
+        }
+        .bill-header h2 { font-size: 24px; font-weight: 700; }
+        .bill-header p { opacity: 0.85; margin-top: 5px; }
+        .bill-body { padding: 30px; }
+        .patient-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 15px; margin-bottom: 25px; background: #f8fafc;
+            border-radius: 10px; padding: 18px;
+        }
+        .patient-row span { font-size: 14px; color: #555; }
+        .patient-row strong { color: #1a2740; }
+        .charge-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .charge-table td { padding: 13px 15px; border-bottom: 1px solid #f0f4f9; font-size: 14px; }
+        .charge-table td:last-child { text-align: right; font-weight: 600; color: #1a2740; }
+        .charge-table .total-row td { background: #f0f6ff; font-size: 16px; font-weight: 700; color: #0055cc; border-top: 2px solid #0055cc; }
+        .other-input {
+            padding: 10px 14px; border: 1.5px solid #dde3ec; border-radius: 8px;
+            font-size: 14px; font-family: 'Poppins', sans-serif; width: 120px;
+            text-align: right;
+        }
+        .paid-check { display: flex; align-items: center; gap: 10px; margin: 20px 0; font-size: 15px; font-weight: 500; color: #444; }
+        .paid-check input { width: 18px; height: 18px; cursor: pointer; }
+        .gen-btn {
+            width: 100%; background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white; padding: 14px; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,77,153,0.4); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧾 Generate Bill — {{ patient.name }}</h1>
+        <a href="{% url 'patients' %}" class="back-btn">← Back to Patients</a>
+    </div>
+    <div class="container">
+        <div class="bill-card">
+            <div class="bill-header">
+                <h2>🏥 City Care Hospital</h2>
+                <p>Patient Bill Summary</p>
+            </div>
+            <div class="bill-body">
+                <div class="patient-row">
+                    <span><strong>Name:</strong> {{ patient.name }}</span>
+                    <span><strong>ID:</strong> {{ patient.patient_id }}</span>
+                    <span><strong>Disease:</strong> {{ patient.disease }}</span>
+                    <span><strong>Doctor:</strong> {{ patient.assigned_doctor }}</span>
+                    <span><strong>Status:</strong> {{ patient.status }}</span>
+                    <span><strong>Room:</strong> {% if room %}{{ room.room_number }} / Bed {{ room.bed_number }}{% else %}Not Allotted{% endif %}</span>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="charge-table">
+                        <tr><td>🛏️ Room Charge</td><td>₹{{ room_charge }}</td></tr>
+                        <tr><td>👨‍⚕️ Doctor Fee</td><td>₹{{ doctor_fee }}</td></tr>
+                        <tr><td>💊 Medicine Charge</td><td>₹{{ medicine_charge }}</td></tr>
+                        <tr>
+                            <td>📋 Other Charges</td>
+                            <td><input type="number" name="other_charges" class="other-input" value="{{ other_charges }}" min="0" step="0.01"></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td>💰 Total Amount</td>
+                            <td>₹{{ total }}</td>
+                        </tr>
+                    </table>
+
+                    <div class="paid-check">
+                        <input type="checkbox" name="is_paid" id="is_paid" {% if existing_bill and existing_bill.is_paid %}checked{% endif %}>
+                        <label for="is_paid">Mark as Paid</label>
+                    </div>
+
+                    <button type="submit" class="gen-btn">🧾 Generate Bill</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

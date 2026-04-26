@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f6fc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .receipt-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            border-top: 8px solid #0d6efd;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .receipt-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .hospital-name {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #004d99;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0d6efd;
+            color: white;
+            width: 35%;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            text-align: center;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn:hover {
+            background-color: #0956c0;
+        }
+
+        .btn-print {
+            background-color: #198754;
+        }
+
+        .btn-print:hover {
+            background-color: #146c43;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        /* Print style */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .receipt-container {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+                max-width: 100%;
+                border-top: none;
+            }
+
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h1>Hospital Receipt</h1>
+        <div class="hospital-name">🏥 Hospital Management System</div>
+        <h2>Patient Details</h2>
+
+        <div class="receipt-info">
+            <div><strong>Receipt Date:</strong> {% now "d-m-Y" %}</div>
+            <div><strong>Receipt ID:</strong> #{{ patient.id }}</div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>{{ patient.name }}</td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td>{{ patient.age }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ patient.gender }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ patient.phone }}</td>
+            </tr>
+            <tr>
+                <th>Disease</th>
+                <td>{{ patient.disease }}</td>
+            </tr>
+            <tr>
+                <th>Assigned Doctor</th>
+                <td>{{ patient.assigned_doctor }}</td>
+            </tr>
+            <tr>
+                <th>Appointment Date</th>
+                <td>{{ patient.appointment_date|date:"d-m-Y" }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td class="status">{{ patient.status }}</td>
+            </tr>
+        </table>
+
+        <div class="button-group">
+            <button onclick="window.print()" class="btn btn-print">🖨 Print Receipt</button>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </div>
+
+        <div class="footer">
+            Thank you for choosing our hospital.<br>
+            Wishing you a speedy recovery!
+        </div>
+    </div>
+</body>
+</html>

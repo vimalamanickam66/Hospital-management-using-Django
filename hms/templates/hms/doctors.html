@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors - Hospital Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #004d99 0%, #0077cc 100%);
+            color: white;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            box-shadow: 0 4px 15px rgba(0,77,153,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 16px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body { padding: 25px; }
+
+        .form-wrap p {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .form-wrap p label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-wrap p input,
+        .form-wrap p select,
+        .form-wrap p textarea {
+            padding: 10px 14px;
+            border: 1.5px solid #dde3ec;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background: #f9fbfd;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .form-wrap p input:focus,
+        .form-wrap p select:focus {
+            outline: none;
+            border-color: #0077cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+
+        .save-btn {
+            margin-top: 5px;
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 11px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,77,153,0.3);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,77,153,0.4);
+        }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead th {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white;
+            padding: 13px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f4f9;
+            text-align: center;
+            color: #444;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #f0f6ff; }
+
+        .available-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .available   { background: #d4edda; color: #155724; }
+        .unavailable { background: #f8d7da; color: #721c24; }
+
+        .btn-edit {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 4px;
+            transition: 0.2s;
+        }
+        .btn-edit:hover { background: #fde68a; }
+
+        .empty-msg {
+            text-align: center;
+            color: #aaa;
+            font-style: italic;
+            padding: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <span>👨‍⚕️</span>
+            <h1>Doctor Management</h1>
+        </div>
+        <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        <div class="card">
+            <div class="card-header">➕ Add Doctor</div>
+            <div class="card-body">
+                <div class="form-wrap">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save-btn">💾 Save Doctor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">📋 Doctor List</div>
+            <div class="card-body" style="padding:0;">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Phone</th>
+                                <th>Fee</th>
+                                <th>Available</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doctor in doctor_list %}
+                            <tr>
+                                <td>{{ doctor.name }}</td>
+                                <td>{{ doctor.department }}</td>
+                                <td>{{ doctor.phone }}</td>
+                                <td>₹{{ doctor.fee }}</td>
+                                <td>
+                                    {% if doctor.available %}
+                                        <span class="available-badge available">✅ Available</span>
+                                    {% else %}
+                                        <span class="available-badge unavailable">❌ Not Available</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit_doctor' doctor.id %}" class="btn-edit">✏️ Edit</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="7" class="empty-msg">No doctors found</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

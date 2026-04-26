@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Medicine - {{ patient.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; }
+        .header {
+            background: linear-gradient(135deg, #004d99, #0077cc);
+            color: white; padding: 0 30px; display: flex;
+            align-items: center; justify-content: space-between;
+            height: 70px; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,77,153,0.3);
+        }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .back-btn {
+            text-decoration: none; color: white;
+            background: rgba(255,255,255,0.2); padding: 8px 18px;
+            border-radius: 25px; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.3); transition: 0.3s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.35); }
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 40px; }
+        .patient-info {
+            background: white; border-radius: 14px; padding: 20px 25px;
+            margin-bottom: 25px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex; gap: 30px; flex-wrap: wrap;
+            border-left: 5px solid #0077cc;
+        }
+        .patient-info span { font-size: 14px; color: #555; }
+        .patient-info strong { color: #1a2740; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 2px 15px rgba(0,0,0,0.07); margin-bottom: 25px; overflow: hidden; }
+        .card-header { background: linear-gradient(135deg, #004d99, #0077cc); color: white; padding: 16px 25px; font-size: 16px; font-weight: 600; }
+        .card-body { padding: 25px; }
+        .form-wrap p { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .form-wrap p label { font-size: 13px; font-weight: 600; color: #444; text-transform: uppercase; }
+        .form-wrap p input, .form-wrap p select {
+            padding: 10px 14px; border: 1.5px solid #dde3ec; border-radius: 8px;
+            font-size: 14px; font-family: 'Poppins', sans-serif; background: #f9fbfd; width: 100%;
+        }
+        .form-wrap p input:focus, .form-wrap p select:focus {
+            outline: none; border-color: #0077cc; background: white;
+            box-shadow: 0 0 0 3px rgba(0,119,204,0.1);
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #004d99, #0077cc); color: white;
+            padding: 11px 30px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .save-btn:hover { transform: translateY(-2px); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th { background: linear-gradient(135deg, #004d99, #0077cc); color: white; padding: 12px 15px; text-align: center; }
+        tbody td { padding: 11px 15px; border-bottom: 1px solid #f0f4f9; text-align: center; color: #444; }
+        tbody tr:hover { background: #f0f6ff; }
+        .empty-msg { text-align: center; color: #aaa; font-style: italic; padding: 25px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💊 Give Medicine — {{ patient.name }}</h1>
+        <a href="{% url 'patients' %}" class="back-btn">← Back to Patients</a>
+    </div>
+    <div class="container">
+        <div class="patient-info">
+            <span><strong>Patient:</strong> {{ patient.name }}</span>
+            <span><strong>ID:</strong> {{ patient.patient_id }}</span>
+            <span><strong>Disease:</strong> {{ patient.disease }}</span>
+            <span><strong>Doctor:</strong> {{ patient.assigned_doctor }}</span>
+            <span><strong>Status:</strong> {{ patient.status }}</span>
+        </div>
+
+        <div class="card">
+            <div class="card-header">➕ Give Medicine</div>
+            <div class="card-body">
+                <div class="form-wrap">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="save-btn">💊 Give Medicine</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">📋 Medicines Given</div>
+            <div class="card-body" style="padding:0;">
+                <table>
+                    <thead>
+                        <tr><th>Medicine</th><th>Quantity</th><th>Price Each</th><th>Total</th><th>Date</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for pm in given_medicines %}
+                        <tr>
+                            <td>{{ pm.medicine.name }}</td>
+                            <td>{{ pm.quantity }}</td>
+                            <td>₹{{ pm.medicine.price }}</td>
+                            <td>₹{{ pm.total_price }}</td>
+                            <td>{{ pm.given_date }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5" class="empty-msg">No medicines given yet</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
